@@ -4,7 +4,7 @@ export function SiteFooter() {
   return (
     <footer className="border-t bg-background">
       <div className="container py-8 md:py-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <h3 className="text-lg font-semibold mb-4">CorbanScholar</h3>
             <p className="text-sm text-muted-foreground">Find It. Fund It. Fulfill It.</p>

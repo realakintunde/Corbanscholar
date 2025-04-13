@@ -14,8 +14,7 @@ interface SearchFiltersProps {
   initialField?: string
   initialLevel?: string
   initialAmount?: string
-  initialSource?: string
-  isMobile?: boolean
+  initialSource?: string // Added source parameter
 }
 
 export default function SearchFilters({
@@ -23,8 +22,7 @@ export default function SearchFilters({
   initialField = "",
   initialLevel = "",
   initialAmount = "",
-  initialSource = "",
-  isMobile = false,
+  initialSource = "", // Added source parameter
 }: SearchFiltersProps) {
   const router = useRouter()
   const pathname = usePathname()
@@ -35,7 +33,7 @@ export default function SearchFilters({
   const [fields, setFields] = useState<string[]>(initialField ? initialField.split(",") : [])
   const [levels, setLevels] = useState<string[]>(initialLevel ? initialLevel.split(",") : [])
   const [amount, setAmount] = useState<string>(initialAmount || "")
-  const [sources, setSources] = useState<string[]>(initialSource ? initialSource.split(",") : [])
+  const [sources, setSources] = useState<string[]>(initialSource ? initialSource.split(",") : []) // Added source state
 
   // Active filters count
   const activeFiltersCount = countries.length + fields.length + levels.length + sources.length + (amount ? 1 : 0)
@@ -119,16 +117,12 @@ export default function SearchFilters({
         </div>
       )}
 
-      <Accordion
-        type="multiple"
-        defaultValue={["sources", "countries", "fields", "levels", "amount"]}
-        className="space-y-2"
-      >
+      <Accordion type="multiple" defaultValue={["sources", "countries", "fields", "levels", "amount"]}>
         {/* New Sources Filter Section */}
-        <AccordionItem value="sources" className="border rounded-md px-2">
-          <AccordionTrigger className="text-sm font-medium py-3">Scholarship Sources</AccordionTrigger>
+        <AccordionItem value="sources">
+          <AccordionTrigger className="text-sm font-medium">Scholarship Sources</AccordionTrigger>
           <AccordionContent>
-            <div className="space-y-2 py-2">
+            <div className="space-y-2">
               {[
                 { id: "fulbright", label: "Fulbright" },
                 { id: "chevening", label: "Chevening" },
@@ -161,10 +155,10 @@ export default function SearchFilters({
           </AccordionContent>
         </AccordionItem>
 
-        <AccordionItem value="countries" className="border rounded-md px-2">
-          <AccordionTrigger className="text-sm font-medium py-3">Countries</AccordionTrigger>
+        <AccordionItem value="countries">
+          <AccordionTrigger className="text-sm font-medium">Countries</AccordionTrigger>
           <AccordionContent>
-            <div className="space-y-2 py-2">
+            <div className="space-y-2">
               {[
                 { id: "usa", label: "United States" },
                 { id: "uk", label: "United Kingdom" },
@@ -200,10 +194,10 @@ export default function SearchFilters({
           </AccordionContent>
         </AccordionItem>
 
-        <AccordionItem value="fields" className="border rounded-md px-2">
-          <AccordionTrigger className="text-sm font-medium py-3">Fields of Study</AccordionTrigger>
+        <AccordionItem value="fields">
+          <AccordionTrigger className="text-sm font-medium">Fields of Study</AccordionTrigger>
           <AccordionContent>
-            <div className="space-y-2 py-2">
+            <div className="space-y-2">
               {[
                 { id: "business", label: "Business & Management" },
                 { id: "engineering", label: "Engineering" },
@@ -239,10 +233,10 @@ export default function SearchFilters({
           </AccordionContent>
         </AccordionItem>
 
-        <AccordionItem value="levels" className="border rounded-md px-2">
-          <AccordionTrigger className="text-sm font-medium py-3">Academic Levels</AccordionTrigger>
+        <AccordionItem value="levels">
+          <AccordionTrigger className="text-sm font-medium">Academic Levels</AccordionTrigger>
           <AccordionContent>
-            <div className="space-y-2 py-2">
+            <div className="space-y-2">
               {[
                 { id: "undergraduate", label: "Undergraduate" },
                 { id: "masters", label: "Masters" },
@@ -272,10 +266,10 @@ export default function SearchFilters({
           </AccordionContent>
         </AccordionItem>
 
-        <AccordionItem value="amount" className="border rounded-md px-2">
-          <AccordionTrigger className="text-sm font-medium py-3">Scholarship Amount</AccordionTrigger>
+        <AccordionItem value="amount">
+          <AccordionTrigger className="text-sm font-medium">Scholarship Amount</AccordionTrigger>
           <AccordionContent>
-            <RadioGroup value={amount} onValueChange={setAmount} className="space-y-2 py-2">
+            <RadioGroup value={amount} onValueChange={setAmount}>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="any" id="amount-any" />
                 <Label htmlFor="amount-any">Any amount</Label>
@@ -304,12 +298,6 @@ export default function SearchFilters({
           </AccordionContent>
         </AccordionItem>
       </Accordion>
-
-      {isMobile && (
-        <Button className="w-full mt-4" onClick={() => router.push(`${pathname}?${searchParams.toString()}`)}>
-          Apply Filters
-        </Button>
-      )}
     </div>
   )
 }
