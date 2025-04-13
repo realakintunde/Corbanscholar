@@ -21,6 +21,7 @@ export async function middleware(request: NextRequest) {
     const isProtectedRoute = protectedRoutes.some((route) => path.startsWith(route))
     const isAdminRoute = adminRoutes.some((route) => path.startsWith(route))
 
+    // If not a protected route and not an API route, proceed normally
     if (!isProtectedRoute && !path.startsWith("/api/")) {
       return NextResponse.next({
         request: {
@@ -94,7 +95,19 @@ export async function middleware(request: NextRequest) {
   }
 }
 
-// See "Matching Paths" below to learn more
+// Update the matcher to be more specific and exclude static files
 export const config = {
-  matcher: ["/api/:path*", "/dashboard/:path*", "/admin/:path*"],
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     * - public folder
+     * Only run middleware on API routes and protected routes
+     */
+    "/api/:path*",
+    "/dashboard/:path*",
+    "/admin/:path*",
+  ],
 }
